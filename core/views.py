@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.http import HttpResponse
 from catalog.models import Product
 from catalog.models import Category
@@ -9,17 +9,23 @@ class ProductListView(generic.ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'index.html'
+    paginate_by = 6
 
 
-def details(request, produto_slug):
-    produto_selecionado = Product.objects.get(slug = produto_slug )
-    context = {
-        'product' : produto_selecionado,
-        'rangeStars' : range(produto_selecionado.stars),
-        'rangeNotStars' : range(5-produto_selecionado.stars),
-    }
-    
-    return render(request, 'product-details.html', context)
+class ProductDetailListView(generic.ListView):
+
+    model = Product
+    context_object_name = 'product'
+    template_name = 'product-details.html'
+
+
+    def get_queryset(self):
+        return Product.objects.get(slug=self.kwargs['produto_slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailListView, self).get_context_data(**kwargs)
+        context['rangeStars'] = range(4)
+        context['rangeNotStars'] = range(1)
 
 def contact(request):
     success = False
@@ -39,14 +45,14 @@ def about(request):
 class CategoryListView(generic.ListView):
     template_name = 'index.html'
     context_object_name = 'products'
+    paginate_by = 6
+
 
     def get_queryset(self):
         return Product.objects.filter(category__slug = self.kwargs['categoria_slug'])
 
+    def get_context_data(self, **kwargs):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        context['categoria'] = get_object_or_404(Category, slug=self.kwargs['categoria_slug'])
+        return context
 
-def quantidadeRelativaCategoria(categoria):
-   return{
-       'notebooks' : 5,
-       'acessorio' : 12,
-       'celular' : 3
-   }.get(categoria.lower(), 9)

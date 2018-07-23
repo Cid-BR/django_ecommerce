@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load pagination %}
       
 {% block container  %}
 <div class="row">
@@ -98,4 +99,5 @@
 
       </div>
       <!-- /.row -->
+      {% pagination request paginator page_obj %}
 {% endblock %}

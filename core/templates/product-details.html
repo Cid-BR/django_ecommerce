@@ -1,5 +1,6 @@
 {% extends "base.html" %}
       
+{% load thumbnail %}
 {% block container  %}
 <div class="row">
   <div class="col-lg-3">
@@ -15,8 +16,12 @@
     <div class="col-lg-9">
 
       <div class="card mt-4">
-        <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
-        <div class="card-body">
+          {% if product.image %}
+          <img class="card-img-top" src="{{ product.image|thumbnail_url:'product_image' }}" alt=""></a>
+          {% else %}
+          <img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+          {% endif %}
+          <div class="card-body">
           <h3 class="card-title">{{ product.name }}</h3>
           <h4>${{product.price}}</h4>
           <p class="card-text">{{ product.description }}</p>
