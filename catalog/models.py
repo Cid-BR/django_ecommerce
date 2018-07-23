@@ -24,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField('Preço', decimal_places=2, max_digits=8)
     stars = models.IntegerField('Avaliação')
     category = models.ForeignKey('catalog.category', verbose_name='Categoria', on_delete=models.CASCADE)
+    image = models.ImageField('Imagem', null=True, blank=True, upload_to='img')
 
     created = models.DateField('Criado em', auto_now_add=True)
     modified = models.DateField('Modificado em', auto_now=True)

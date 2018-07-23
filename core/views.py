@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from catalog.models import Product
 from catalog.models import Category
+from core.forms import ContactForm
+from django.views import generic
 
 def index(request):
     context = {
@@ -20,7 +22,16 @@ def details(request, produto_slug):
     return render(request, 'product-details.html', context)
 
 def contact(request):
-    return render(request, 'contact.html')
+    success = False
+    form = ContactForm(request.POST or None)
+    if form.is_valid():
+        form.send_mail()
+        sucess = True
+    context = {
+       'form' : form,
+       'success' : success
+    }
+    return render(request, 'contact.html', context)
 
 def about(request):
     return render(request, 'about.html')
