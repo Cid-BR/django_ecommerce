@@ -1,15 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse
 from catalog.models import Product
 from catalog.models import Category
 from core.forms import ContactForm
 from django.views import generic
 
-def index(request):
-    context = {
-        'products'    : Product.objects.all(),
-    }
-    return render(request, 'index.html', context )
+class ProductListView(generic.ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'index.html'
+
 
 def details(request, produto_slug):
     produto_selecionado = Product.objects.get(slug = produto_slug )
@@ -36,13 +36,13 @@ def contact(request):
 def about(request):
     return render(request, 'about.html')
 
-def categories(request, categoria_slug):
-    category = Category.objects.get(slug = categoria_slug)
-    context = {
-        'categoria' : categoria_slug.capitalize(),
-        'products'  : Product.objects.filter(category_id = category.id),
-        }
-    return render(request, 'index.html', context)
+class CategoryListView(generic.ListView):
+    template_name = 'index.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return Product.objects.filter(category__slug = self.kwargs['categoria_slug'])
+
 
 def quantidadeRelativaCategoria(categoria):
    return{
