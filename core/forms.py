@@ -1,6 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.validators import MinLengthValidator
 
 class ContactForm(forms.Form):
 
@@ -18,3 +19,12 @@ class ContactForm(forms.Form):
         [settings.DEFAULT_FROM_EMAIL]
         )
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Username', 
+        widget= forms.TextInput(attrs = {'placeholder' : 'Username'} )
+    )
+    password = forms.CharField(label='Password', max_length=16,
+        widget = forms.PasswordInput(attrs = {'placeholder':'senha'}, 
+        render_value = False),
+        validators=[MinLengthValidator(8, message = 'A senha deve conterao menos 8 caracteres')]
+    )

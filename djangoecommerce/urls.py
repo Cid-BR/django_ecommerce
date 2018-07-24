@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import login
 from django.urls import include
 from core import views
 
 urlpatterns = [
     path('', views.ProductListView.as_view(), name='index'),
+    path('index', views.login ,name='login'),
     path('detalhes/<str:produto_slug>', views.ProductDetailListView.as_view(), name='details'),
     path('contato', views.contact, name='contact'),
     path('sobre', views.about, name='about'),
