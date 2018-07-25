@@ -45,36 +45,14 @@
             </li>
 
             <li class="nav-item dropdown">
-              {% if not user.is_autehenticated %}
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Minha Conta</a>
-                    <div class="dropdown-menu">
-                        <form class="px-4 py-3" method="post">{% csrf_token %}
-                          <div class="form-group">
-                            <label for="username">Nome de usuário:</label>
-                            <input type="text" class="form-control" id="username" placeholder="username">
-                          </div>
-                          <div class="form-group">
-                            <label for="password">Senha</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                          </div>
-                          <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                            <label class="form-check-label" for="dropdownCheck">
-                              Remember me
-                            </label>
-                          </div>
-                          <button type="submit" class="btn btn-primary">Sign in</button>
-                          <a href="{% url 'login' %}"> Sign in </a>
-
-                        </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">New around here? Sign up</a>
-                        <a class="dropdown-item" href="#">Forgot password?</a>
-                      </div>
-                  {% else %}
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">{{ user.name }}</a>
-                  {% endif %}
-              </li>
+                <div class="dropdown-menu">
+                  <form action="{% url 'profile' %}" method="post">{% csrf_token %}
+                    {{ login_form }}
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                  </form>
+                </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -82,7 +60,26 @@
 
     <!-- Page Content -->
     <div class="container">
-        {% block container %}{% endblock%}
+        <div class="row">
+
+            <div class="col-lg-3">
+    
+              <h1 class="my-4">Categorias<span>
+               <h4> {% if categoria %}
+                |{{ categoria}}
+                {% endif %}
+              </h4></span></h1>
+                
+              
+              <div class="list-group">
+                {% for category in categories %}
+                  <a href="{% url 'category' category.slug %}" class="list-group-item">{{category.name}}</a>
+                {% endfor %}
+              </div>
+    
+            </div>
+         {% block container %}{% endblock %}
+        </div>
     </div>
     <!-- /.container -->
 

@@ -2,6 +2,8 @@ from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.validators import MinLengthValidator
+from django.contrib.auth import authenticate, login
+
 
 class ContactForm(forms.Form):
 
@@ -28,3 +30,11 @@ class LoginForm(forms.Form):
         render_value = False),
         validators=[MinLengthValidator(8, message = 'A senha deve conterao menos 8 caracteres')]
     )
+
+    def login(self):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        print(username)
+        acesso = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)

@@ -1,16 +1,27 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.http import HttpResponse
+from django.views import generic
+#Authentication
+from django.contrib.auth import authenticate, login
+#forms
+from core.forms import ContactForm
+from core.forms import LoginForm
+#models
 from catalog.models import Product
 from catalog.models import Category
-from core.forms import ContactForm, LoginForm
-from django.views import generic
-from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 class ProductListView(generic.ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'index.html'
     paginate_by = 6
+
+class UserDetailsListView(generic.ListView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'profile.html'
+
 
 class ProductDetailListView(generic.ListView):
 
@@ -61,15 +72,14 @@ class CategoryListView(generic.ListView):
         return context
 
 def login(request):
-    print('ola')
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if(form.is_valid()):
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            print(username)
-            acesso = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-    return render(request, 'index.html')
+    success = False
+    form = LoginForm(request.POST or None)
+    if(form.is_valid()):
+        form.login()
+        success = True
+    context = {
+       'form' : form,
+       'success' : success
+    }
+    return render(request, 'index.html', context)
 

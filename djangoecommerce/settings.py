@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 #apps
                 'catalog.context_processors.categories',
+                'core.context_processors.login_ctx_tag',
             ],
         },
     },
