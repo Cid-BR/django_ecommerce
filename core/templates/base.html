@@ -55,7 +55,7 @@
               {% else %}
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Minha Conta</a>
                 <div class="dropdown-menu">
-                  <form action="{% url 'profile' %}" method="post">{% csrf_token %}
+                  <form action="{% url 'login' %}" method="post">{% csrf_token %}
                     {{ login_form }}
                     <button type="submit" class="btn btn-primary">Sign in</button>
                   </form>
