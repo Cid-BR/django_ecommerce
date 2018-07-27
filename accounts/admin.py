@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserAdminCreationForm, UserAdminForm
-
 from .models import User
 
 
@@ -19,12 +18,12 @@ class UserAdmin(BaseUserAdmin):
             'fields' : ('username', 'email')
         }),
         ('Informações Básicas', {
-            'fields':('name', 'date_joined', 'last_login')
+            'fields':('name', 'last_login')
         }),
         (
             'Permissões', {
                 'fields': (
-                    'is_active', 'is_staff', 'is_superuser', 'groups','user_permissons'
+                    'is_active', 'is_staff', 'is_superuser', 'groups','user_permissions'
                 )
             }
         ),
