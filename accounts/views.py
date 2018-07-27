@@ -9,6 +9,7 @@ class RegisterView(CreateView):
     model = User
     template_name = 'accounts/register.html'
     form_class = UserAdminCreationForm
+    
 
 class UserDetailsListView(generic.ListView):
     model = User
