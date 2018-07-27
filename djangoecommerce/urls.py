@@ -17,18 +17,23 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.views import login
+from django.contrib.auth.views import login, logout
 from django.urls import include
 from core import views
 
 urlpatterns = [
+    #core
     path('', views.ProductListView.as_view(), name='index'),
-    path('detalhes/<str:produto_slug>', views.ProductDetailListView.as_view(), name='details'),
     path('contato', views.contact, name='contact'),
-    path('sobre', views.about, name='about'),
-    path('categoria/<str:categoria_slug>', views.CategoryListView.as_view(), name='category'),
-    path('profile/', views.UserDetailsListView.as_view(), name='profile'),
+    path('sobre', views.about, name='about'),   
     path('admin/', admin.site.urls),
+
+    #products
+    path('categoria', include('catalog.urls')),
+
+    #accounts   
+    path('conta/', include('accounts.urls')),
+
 ]
 
 if settings.DEBUG:

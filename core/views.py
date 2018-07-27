@@ -17,12 +17,6 @@ class ProductListView(generic.ListView):
     template_name = 'index.html'
     paginate_by = 6
 
-class UserDetailsListView(generic.ListView):
-    model = User
-    context_object_name = 'user'
-    template_name = 'profile.html'
-
-
 class ProductDetailListView(generic.ListView):
 
     model = Product
@@ -70,16 +64,4 @@ class CategoryListView(generic.ListView):
         context = super(CategoryListView, self).get_context_data(**kwargs)
         context['categoria'] = get_object_or_404(Category, slug=self.kwargs['categoria_slug'])
         return context
-
-def login(request):
-    success = False
-    form = LoginForm(request.POST or None)
-    if(form.is_valid()):
-        form.login()
-        success = True
-    context = {
-       'form' : form,
-       'success' : success
-    }
-    return render(request, 'index.html', context)
 

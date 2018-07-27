@@ -3,6 +3,24 @@
 {% load pagination %}
       
 {% block container  %}
+<div class="row">
+
+  <div class="col-lg-3">
+
+    <h1 class="my-4">Categorias<span>
+     <h4> {% if categoria %}
+      |{{ categoria}}
+      {% endif %}
+    </h4></span></h1>
+      
+    
+    <div class="list-group">
+      {% for category in categories %}
+        <a href="{% url 'category' category.slug %}" class="list-group-item">{{category.name}}</a>
+      {% endfor %}
+    </div>
+
+  </div>
   <div class="col-lg-9">
 
           <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -76,6 +94,6 @@
 
         </div>
         <!-- /.col-lg-9 -->
-
+</div>
       {% pagination request paginator page_obj %}
 {% endblock %}

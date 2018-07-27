@@ -147,7 +147,7 @@ DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
 
 #Auth
 LOGIN_URL = 'index'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL = 'index'
 AUTH_USER_MODEL = 'accounts.User'
 
