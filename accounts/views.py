@@ -3,6 +3,7 @@ from django.views.generic import CreateView
 from .forms import UserAdminCreationForm
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .models import User
@@ -13,7 +14,7 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('index')
     
 
-class UserDetailsListView(generic.ListView):
+class UserDetailsListView(LoginRequiredMixin ,generic.ListView):
     model = User
     context_object_name = 'user'
     template_name = 'profile.html'

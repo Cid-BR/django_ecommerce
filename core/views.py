@@ -17,24 +17,6 @@ class ProductListView(generic.ListView):
     template_name = 'index.html'
     paginate_by = 6
 
-class ProductDetailListView(generic.ListView):
-
-    model = Product
-    produtc = 'product'
-    template_name = 'product-details.html'
-
-
-    def get_queryset(self):
-        return Product.objects.get(slug=self.kwargs['produto_slug'])
-
-'''
-    def get_context_data(self, **kwargs):
-        context = super(ProductDetailListView, self).get_context_data(**kwargs)
-        context['rangeStars'] = range(4)
-        context['rangeNotStars'] = range(1)
-        context['product'] = product
-'''
-
 
 def contact(request):
     success = False
@@ -48,20 +30,9 @@ def contact(request):
     }
     return render(request, 'contact.html', context)
 
+
 def about(request):
     return render(request, 'about.html')
 
-class CategoryListView(generic.ListView):
-    template_name = 'index.html'
-    context_object_name = 'products'
-    paginate_by = 6
 
-
-    def get_queryset(self):
-        return Product.objects.filter(category__slug = self.kwargs['categoria_slug'])
-
-    def get_context_data(self, **kwargs):
-        context = super(CategoryListView, self).get_context_data(**kwargs)
-        context['categoria'] = get_object_or_404(Category, slug=self.kwargs['categoria_slug'])
-        return context
 

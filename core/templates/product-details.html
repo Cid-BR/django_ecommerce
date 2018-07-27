@@ -24,9 +24,9 @@
 
       <div class="card mt-4">
           {% if product.image %}
-          <img class="card-img-top" src="{{ product.image|thumbnail_url:'product_image' }}" alt=""></a>
+          <img class="card-img-top img-fluid" src="{{ product.image|thumbnail_url:'product_image' }}" alt=""></a>
           {% else %}
-          <img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+          <img class="card-img-top img-fluid" src="http://placehold.it/400x200" alt=""></a>
           {% endif %}
           <div class="card-body">
           <h3 class="card-title">{{ product.name }}</h3>

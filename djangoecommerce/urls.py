@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #products
-    path('categoria', include('catalog.urls')),
+    path('categoria/', include('catalog.urls')),
 
     #accounts   
     path('conta/', include('accounts.urls')),
