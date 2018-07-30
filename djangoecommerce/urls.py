@@ -34,6 +34,9 @@ urlpatterns = [
     #accounts   
     path('conta/', include('accounts.urls')),
 
+    #checkout
+    path('carrinho/', include('checkout.urls')),
+
 ]
 
 if settings.DEBUG:
