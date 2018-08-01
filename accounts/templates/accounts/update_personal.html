@@ -2,44 +2,5 @@
 {% load widget_tweaks %}
 
 {% block forms %}
-<div class="tab-pane fade" id="nav-dados-pessoais" role="tabpanel" aria-labelledby="nav-dados-pessoais">
-    <div class="row" style="padding-block-start: 5%">
-      <div class="col-md-12">
-          <form method="post"> {% csrf_token %}
-              <div class="form-group">
-                <label for="inputAddress">Endereço</label>
-                <input type="text" class="form-control" required="True" id="inputAddress" placeholder="Endereço principal">
-              </div>
-              <div class="form-group">
-                <label for="inputAddress2">Endereço 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Endereço secundário">
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputCity">Cidade</label>
-                  <input type="text" class="form-control" id="inputCity">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputState">Estado</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>Selecionar</option>
-                    <option>Acre</option>
-                    <option>Sergipe</option>
-                    <option>Bahia</option>
-                    <option>São Paulo</option>
-                    <option>Minas Gerais</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">CEP</label>
-                  <input type="text" class="form-control" id="inputZip">
-                </div>
-              </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Atualizar</button>
-            </form>
-      </div>
-
-    </div>
-  </div>
+{% include 'accounts/endereco-form.html' %}
 {% endblock%}

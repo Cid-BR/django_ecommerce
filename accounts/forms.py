@@ -12,4 +12,5 @@ class UserAdminForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'name', 'is_active', 'is_staff']
+        fields = ['username', 'email', 'name', 'logradouro', 'bairro', 'cidade', 'estado', 'pais', 'cep', 'is_active', 'is_staff']
+

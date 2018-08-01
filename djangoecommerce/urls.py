@@ -24,8 +24,8 @@ from core import views
 urlpatterns = [
     #core
     path('', views.ProductListView.as_view(), name='index'),
-    path('contato', views.contact, name='contact'),
-    path('sobre', views.about, name='about'),   
+    path('contato', views.Contact, name='contact'),
+    path('sobre', views.About.as_view(), name='about'),   
     path('admin/', admin.site.urls),
 
     #products

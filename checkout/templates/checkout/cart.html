@@ -2,6 +2,8 @@
 {% load widget_tweaks %}
 
 {% block container %}
+<div style="margin-top: 5">
+
 <div class="page-header">
     <h1>Carrinho de Compras</h1>
 </div>
@@ -46,10 +48,10 @@
             <p class="text-right">
                 <a hre="{% url 'index' %}" class="pull-left btn btn-default">Continuar Compras</a>
                 <button type="submit" class="btn btn-primary" name="button">Atualizar Carrinho</button>
-                <a href="{% url 'finalizar' %}" class="btn btn-success">Finalizar Compras</a>
+                <a href="{% url 'confirmar_endereco' %}" class="btn btn-success">Finalizar Compras</a>
             </p>
         </form>
     </div>
 </div>
-
+</div>
 {% endblock %}

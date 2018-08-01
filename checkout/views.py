@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import RedirectView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import RedirectView, TemplateView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from catalog.models import Product
 from django.forms import modelformset_factory
-from . models import CartItem, Order, OrderItem
+from . models import CartItem, Order
+from accounts.models import User
 from django.contrib import messages
 
 
@@ -71,10 +73,19 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
         session_key = request.session.session_key
         if session_key and CartItem.objects.filter(cart_key = session_key).exists():
             cart_items = CartItem.objects.filter(cart_key=session_key)
-            order = Order.objects.create(
+            order = Order.objects.create_order(
                 user=request.user, cart_items=cart_items
             )
         else:
             messages.info(request, 'Não há itens no carrinho de compras')
             return redirect('carrinho')
         return super(CheckoutView, self).get(self, *args, **kwargs)
+
+class RedirectCheckoutView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'checkout/confirm_address.html'
+    fields = ['logradouro', 'bairro', 'cidade', 'estado', 'pais', 'cep']
+    success_url = reverse_lazy('finalizar')
+
+    def get_object(self):
+        return self.request.user

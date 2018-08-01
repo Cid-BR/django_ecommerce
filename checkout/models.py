@@ -37,7 +37,7 @@ class OrderManager(models.Manager):
     def create_order(self, user, cart_items):
         order = self.create(user=user)
         for cart_item in cart_items:
-            order_item = order_item.objects.create(order=order, quantity=cart_item.quantity, 
+            order_item = OrderItem.objects.create(order=order, quantity=cart_item.quantity, 
             product=cart_item.product, price = cart_item.price)
 
 class Order(models.Model):
