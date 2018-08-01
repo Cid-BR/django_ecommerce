@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block container %}
+
+<div style="margin-top: 5%">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'carrinho' %}">Carrinho</a></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Confirmar Endereço</li>
+    </ol>
+  </nav>
+  
+{% include 'accounts/endereco-form.html' %}
+</div>
+{% endblock%}

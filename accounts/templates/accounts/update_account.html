@@ -1,0 +1,38 @@
+{% extends 'accounts/profile.html' %}
+{% load widget_tweaks %}
+
+{% block forms %}
+<div >
+    <div class="row" style="padding-block-start: 5%">
+      <div class="col-md-4" style="text-align: center;">
+          <img class="card-img-top rounded-circle" src="{{ user.profile.url }}" alt="profile-pic">
+      
+
+      </div>
+      <div class="col-md-8">
+        <div>
+            <form  method="post" enctype="multipart/form-data"> {% csrf_token %}
+                        <fieldset>
+                            {% for field in form %}
+                            <div class="form-group row {% if field.errors %} has-error {% endif %}">
+                                <label for="{{ field.auto_id }}" class="col-md-2 control-label">
+                                    {{ field.label }}
+                                </label>
+                                <div class="col-md-9">
+                                    {% render_field field class='form-control' %}
+                                    {% for error in field.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="form-group form-row col-md-9 col-md-offset-3">
+                                <button type="button submit" class="btn btn-dark">Enviar</button>
+                            </div>
+                        </fieldset>
+                </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

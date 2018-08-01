@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+<div >
+    <h4>Endereço</h4>
+      <div class="row" style="padding-block-start: 5%">
+        <div class="col-md-12">
+            <form method="post"> {% csrf_token %}
+                <div class="form-group">
+                  <label for="{{form.logradouro.auto_id}}">Logradouro</label>
+                  {% render_field form.logradouro class='form-control' %}
+                </div>
+                <div class="form-group">
+                  <label for="{{form.bairro.auto_id}}">Bairro</label>
+                  {% render_field form.bairro class='form-control' %}
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.ciddade.auto_id}}">Cidade</label>
+                    {% render_field form.cidade class='form-control' %}
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="{{form.estado.auto_id}}">Estado</label>
+                    {% render_field form.estado class='form-control' %}
+                  </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="{{form.pais.auto_id}}">País</label>
+                      {% render_field form.pais class='form-control' %}
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="{{form.cep.auto_id}}">CEP</label>
+                      {% render_field form.cep class='form-control' %}
+                    </div>
+                    <div class="form-group col-md-2" style="margin-top: 3.5%">
+                      <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </div>
+                </div>
+                </div>
+                </div>
+               
+              </form>
+        </div>
+  
+      </div>
+    </div>

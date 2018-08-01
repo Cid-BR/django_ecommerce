@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserAdminCreationForm, UserAdminForm
 from .models import User
 
-
 class UserAdmin(BaseUserAdmin):
     add_form = UserAdminCreationForm()
     add_fieldsets =(
@@ -15,10 +14,13 @@ class UserAdmin(BaseUserAdmin):
     form = UserAdminForm
     fieldsets = (
         (None, {
-            'fields' : ('username', 'email')
+            'fields' : ('username', 'email', 'profile')
         }),
         ('Informações Básicas', {
             'fields':('name', 'last_login')
+        }),
+        ('Informações Endereço', {
+            'fields':('logradouro', 'bairro', 'cidade', 'estado', 'pais', 'cep')
         }),
         (
             'Permissões', {

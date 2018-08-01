@@ -69,6 +69,7 @@
                     <p class="card-text">{{product.description}}</p>
                   </div>
                   <div class="card-footer">
+                      <a href="{% url 'create_cartitem' product.slug %}"> Adicionar ao Carrinho </a>
                           {% for estrelas in rangeStars %}
                             &#9733;
                           {% endfor %}

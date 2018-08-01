@@ -44,6 +44,7 @@ INSTALLED_APPS = [
      'core',
      'catalog',
      'accounts',
+     'checkout',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,15 @@ AUTHENTICATION_BACKENDS = (
     'accounts.backends.ModelBackend',
 )    
 
+#Messages
+from django.contrib.messages import constants as messages_constant
+MESSAGE_TAGS = {
+    messages_constant.DEBUG: 'debug',
+    messages_constant.INFO:'info',
+    messages_constant.SUCCESS:'success',
+    messages_constant.WARNING:'warning',
+    messages_constant.ERROR:'danger',
+}
 
 #Thumbnails
 THUMBNAIL_ALIASES = {
