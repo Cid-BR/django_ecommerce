@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from catalog.models import Product
+
 class CartItemManager(models.Manager):
     def add_item(self, cart_key, product):
         if self.filter(cart_key=cart_key, product=product).exists():
@@ -74,6 +76,42 @@ class Order(models.Model):
     def __str__(self):
         return 'Pedido #{}'.format(self.pk)
 
+    def products(self):
+        products_ids = self.items.values_list('product')
+        return Product.objects.filter(pk__in=products_ids)
+
+    def total(self):
+        agregate_queryset = self.items.aggregate(
+            total = models.Sum(
+                models.F('price') * models.F('quantity'),
+                output_field=models.DecimalField()
+            )
+        )
+        return aggregate_queryset['total']
+
+    def pagseguro(self):
+        pg = PagSeguro(
+            email=settings.PAGSEGURO_EMAIL, token=settings.PAGSEGURO_TOKEN,
+            config={'sandbox': settings.PAGSEGURO_SANDBOX}
+        )
+
+        pg.SENDER = {
+            'email': self.user.email
+        }
+
+        pg.reference_prefix = None 
+        pg.shipping = None
+        pg.reference = self.pk
+        for item in self.items.all():
+            pg.items.append(
+                {
+                    'id': item.product.pk,
+                    'description': item.product.name,
+                    'quantity': item.quantity,
+                    'amount' : '%.2f' % item.pric
+                }
+            )
+        return pg
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name='Pedido', related_name='items', on_delete= models.CASCADE) 
@@ -96,3 +134,5 @@ def post_save_cart_item(instance, **kwargs):
 models.signals.post_save.connect(
     post_save_cart_item, sender=CartItem, dispatch_uid='post_save_cart_item'
 )
+
+

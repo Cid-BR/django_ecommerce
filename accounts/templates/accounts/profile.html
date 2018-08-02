@@ -5,16 +5,17 @@
 <div style="padding-block-start: 5%" class="col-md-12 container">
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-4">
         <div clas="list-group">
-          <a href="{% url 'profile' %}"  class="list-group-item active">Usuario</a>
+          <a href="{% url 'profile' %}"  class="list-group-item">Usuario</a>
           <a href="{% url 'update_user' %}"  class="list-group-item">Alterar Login</a>
           <a href="{% url 'update_personal' %}"  class="list-group-item">Atualizar dados</a>
           <a href="{% url 'update_password' %}"  class="list-group-item">Alterar Senha</a>
+          <a href="{% url 'meus_pedidos' %}"  class="list-group-item">Meus Pedidos</a>
 
         </div>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-8">
         {% block forms %}
         <h2> Olá, {{user}} </h2>
         {% endblock%}

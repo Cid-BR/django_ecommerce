@@ -167,6 +167,11 @@ MESSAGE_TAGS = {
     messages_constant.ERROR:'danger',
 }
 
+
+PAGSEGURO_TOKEN = ''
+PAGSEGURO_EMAIL = 'may.mchdo@gmail.com'
+PAGSEGURO_SANDBOX = True
+
 #Thumbnails
 THUMBNAIL_ALIASES = {
     '' : {

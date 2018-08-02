@@ -1,4 +1,5 @@
 from accounts import views
+from checkout.views import OrderListView
 from django.urls import path
 from django.contrib.auth.views import login, logout
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path('profile/user/', views.UpdateUserView.as_view(), name='update_user'),
     path('profile/password/', views.UpdatePasswordView.as_view(), name='update_password'),
     path('profile/personal/', views.UpdatePersonalView.as_view(), name='update_personal'),
+    path('profile/meus-pedidos', OrderListView.as_view(), name="meus_pedidos")
 ]

@@ -1,0 +1,37 @@
+{% extends "accounts/profile.html" %}
+{% load widget_tweaks %}
+{% load pagination %}
+
+
+{% block forms %}
+<h3> Meus Pedidos</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Produtos</th>
+            <th>Situação</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in object_list %}
+        <tr>
+            <td><a href="{% url 'pedido_detail' order.pk%}">#{{ order.pk }}</a></td>
+            <td>{% for product in order.products %}
+                {{ product.name }}{% if not forloop.last %} <br/>{% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {{ order.get_status_display }}
+            </td>
+            <td>
+                {{ order.created|date:"d/m/Y" }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% pagination request paginator page_obj %}
+
+{% endblock%}

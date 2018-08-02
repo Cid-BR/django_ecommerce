@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import RedirectView, TemplateView,UpdateView
+from django.views.generic import RedirectView, TemplateView,UpdateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from catalog.models import Product
 from django.forms import modelformset_factory
@@ -80,7 +80,7 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
             messages.info(request, 'Não há itens no carrinho de compras')
             return redirect('carrinho')
         response = super(CheckoutView, self).get(request, *args, **kwargs)
-        response.context['order'] = order
+        response.context_data['order'] = order
         return super(CheckoutView, self).get(self, *args, **kwargs)
 
 class RedirectCheckoutView(LoginRequiredMixin, UpdateView):
@@ -91,3 +91,51 @@ class RedirectCheckoutView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+class OrderListView(LoginRequiredMixin, ListView):
+    template_name = 'checkout/order_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    template_name = 'checkout/order_detail.html'
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+    
+class PagSeguroView(LoginRequiredMixin, RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        order_pk = self.kwargs.get('pk')
+        order = get_object_or_404(
+            Order.objects.filter(user=self.request.user), pk=order.pk
+        )
+        pg = order.pagseguro()
+        pg.redirect_url = self.request.build_absolute_uri(
+            reverse('order_detail', args=[order.pk])
+        )
+        pg.notification_url = self.request.build_absolute_uri(
+            reverse('pagseguro_notification')
+        )
+        response = pg.checkout()
+        return response.payment_url
+
+
+def pagseguro_notification(request):
+    notification_cod = request.POST.get('notificationCode', None)
+    if notification_code:
+        pg = PagSeguro(
+            email = settings.PAGSEGURO_EMAIL, token = settings.PAGSEGURO_TOKEN,
+            config={'sandbox': settings.PAGSEGURO_SANDBOX}
+        )
+        notification_data = pg.check_notification(notification_code)
+        status = notification_data.status
+        reference = notification_data.reference
+        try:
+            order = Order.objects.get(pk=reference)
+        except Order.DoesNotExist:
+            pass
+        else:
+            order.pagseguro_update_status(status)
+    return HttpResponse('OK')
